@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom"; // Use this hook instead of useHistory
 
 const Member = () => {
     const [formData, setFormData] = useState({
@@ -9,18 +10,63 @@ const Member = () => {
         phone: "",
     });
 
+    const navigate = useNavigate(); // Use useNavigate for navigation
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.name && formData.email && formData.phone) {
-            toast.success("Form submitted successfully!");
-            setFormData({ name: "", email: "", phone: "" });
+            try {
+                // POST the form data to your backend API
+                const response = await postFormData(formData);
+
+                if (response.success) {
+                    // Show success toast
+                    toast.success("Form submitted successfully!", {
+                        position: "top-center",
+                        autoClose: 2000,
+                    });
+
+                    // Wait for the toast to finish, then redirect to home
+                    setTimeout(() => {
+                        navigate("/"); // Redirect to home page using navigate
+                    }, 2000);
+                } else {
+                    toast.error(response.message || "Something went wrong.");
+                }
+            } catch (error) {
+                toast.error("Error submitting form. Please try again later.");
+                console.error("Error:", error);
+            }
         } else {
             toast.error("Please fill out all fields.");
+        }
+    };
+
+    // Actual POST request to submit the data to the server
+    const postFormData = async (data) => {
+        try {
+            const response = await fetch("https://go-green-server-1.onrender.com/member-data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data), // Send data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit data");
+            }
+
+            const result = await response.json();
+            return result; // assuming the server responds with { success: true } or { success: false, message: "some error" }
+        } catch (error) {
+            console.error("Error submitting form data:", error);
+            throw error; // Will trigger the catch block and show an error toast
         }
     };
 

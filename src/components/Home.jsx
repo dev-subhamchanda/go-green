@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="bg-green-50 min-h-screen">
             {/* Section 1: Hero Section */}
@@ -33,7 +36,12 @@ const Home = () => {
                 <p className="text-lg text-green-700 max-w-xl mb-6">
                     Join our community of nature enthusiasts and contribute to our efforts in preserving the environment. Sign up today and be a part of the change!
                 </p>
-                <button className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition">
+                <button
+                    className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition"
+                    onClick={() => {
+                        navigate('/member'); // Using navigate to go to /member page
+                    }}
+                >
                     Join Now
                 </button>
             </section>
