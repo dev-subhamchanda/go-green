@@ -33,22 +33,14 @@ const App = () => {
         {/* gallery */}
         <Route 
           path="/gallery" 
-          element={login ? 
+          element={
             <>
               <Navbar /> 
               <Gallery />
             </> 
-            : <Navigate to="/login" />} 
+    } 
         />
-        <Route 
-          path="/" 
-          element={login ? 
-            <>
-              <Navbar /> 
-              <Home />
-            </> 
-            : <Navigate to="/login" />} 
-        />
+
         {/* member */}
         <Route path="/member" element={
           <>
