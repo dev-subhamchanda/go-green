@@ -7,7 +7,7 @@ const AboutDev = () => {
             <div className="flex flex-col md:flex-row items-center bg-white shadow-lg rounded-lg p-6 md:p-10 max-w-4xl">
                 <div className="mb-6 md:mb-0 md:mr-8">
                     <img 
-                        src="https://via.placeholder.com/150" 
+                        src="../assets/image.jpg" 
                         alt="Developer" 
                         className="w-40 h-40 rounded-full object-cover border-4 border-gray-300"
                     />
